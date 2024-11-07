@@ -129,34 +129,6 @@ def Crawl(XAuthObj):
         if "SUCCESS" in statusCreate:
             print(f"{usernameCrawl} => Crawl Done")
     return
-        
-def Save_jobs_to_excel(data_job, filename="JobCrawl/job_list.xlsx"):
-    try:
-    
-        os.makedirs("JobCrawl", exist_ok=True)
-        
-        df = pd.DataFrame(data_job)
-
-        df.rename(columns={
-            "name_job": "Công việc",
-            "job_description": "Mô tả",
-            "link_apply": "Link đăng kí",
-            "job_location": "Địa chỉ",
-            "company": "Công ty"
-        }, inplace=True)
-        
-        if os.path.exists(filename):
-            existing_df = pd.read_excel(filename)
-            combined_df = pd.concat([existing_df, df], ignore_index=True)
-        else:
-
-            combined_df = df
-
-        combined_df.to_excel(filename, index=False)
-        
-        print(f"File đã được lưu thành công")
-    except ValueError as err:
-        return "ERR--SaveJob" + str(err)        
 
 
 
@@ -207,12 +179,6 @@ else:
         thread.join()
 
     print("Crawl Done")
-
-    for job in job_titles:
-        data_job = XAuthObj.SearchJob(job, "VietNam")
-        Save_jobs_to_excel(data_job)
-
-    
 
 
 
